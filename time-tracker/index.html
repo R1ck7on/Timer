@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Time Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Time Tracker</h1>
+      <p class="tagline">Учёт времени по задачам — данные в браузере (см. статус ниже)</p>
+      <p id="storageNotice" class="storage-notice hidden" role="status"></p>
+    </header>
+
+    <main class="grid">
+      <section class="card timer-card">
+        <h2>Таймер</h2>
+        <div class="task-picker">
+          <span class="task-picker-label" id="taskChoiceLabel">Задача</span>
+          <div class="task-picker-row">
+            <div id="taskChoice" class="task-choice" role="group" aria-labelledby="taskChoiceLabel"></div>
+            <button type="button" class="btn btn-ghost" id="btnNewTaskQuick" title="Быстро добавить задачу">+ Новая</button>
+          </div>
+          <p class="task-choice-hint" id="taskChoiceEmpty">Добавьте задачу в блоке «Задачи» справа или нажмите «+ Новая».</p>
+        </div>
+        <div class="clock" id="clockDisplay">00:00:00</div>
+        <div class="timer-actions">
+          <button type="button" class="btn btn-primary" id="btnStart">Старт</button>
+          <button type="button" class="btn btn-secondary" id="btnPause" disabled>Пауза</button>
+          <button type="button" class="btn btn-danger" id="btnStop" disabled>Стоп и записать</button>
+        </div>
+        <p class="hint" id="timerHint">Выберите задачу и нажмите «Старт».</p>
+      </section>
+
+      <section class="card">
+        <h2>Задачи</h2>
+        <form class="inline-form" id="formAddTask">
+          <input type="text" id="newTaskName" placeholder="Название задачи" maxlength="120" required />
+          <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+        <ul class="task-list" id="taskList"></ul>
+      </section>
+
+      <section class="card wide">
+        <div class="section-head">
+          <h2>История сессий</h2>
+          <div class="toolbar">
+            <button
+              type="button"
+              class="btn btn-ghost btn-sm"
+              id="btnExport"
+              title="Откроется вкладка с JSON — сохраните через Ctrl+S или через меню браузера"
+            >
+              Экспорт (вкладка)
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnCopyJson" title="Скопировать весь JSON в буфер">
+              Копировать JSON
+            </button>
+            <label class="btn btn-ghost btn-sm file-label">
+              Импорт
+              <input type="file" id="importFile" accept="application/json" hidden />
+            </label>
+            <button type="button" class="btn btn-ghost btn-sm danger-text" id="btnClearHistory">Очистить историю</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="sessions-table">
+            <thead>
+              <tr>
+                <th>Задача</th>
+                <th>Начало</th>
+                <th>Конец</th>
+                <th>Длительность</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="sessionsBody"></tbody>
+          </table>
+          <p class="empty" id="sessionsEmpty">Пока нет записей. Запустите таймер и остановите его — сессия появится здесь.</p>
+        </div>
+        <p class="totals" id="totalsLine"></p>
+      </section>
+    </main>
+  </div>
+
+  <div id="modalOverlay" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Новая задача</h3>
+      <input type="text" id="quickTaskName" placeholder="Название" maxlength="120" />
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="modalOk">OK</button>
+        <button type="button" class="btn btn-ghost" id="modalCancel">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
